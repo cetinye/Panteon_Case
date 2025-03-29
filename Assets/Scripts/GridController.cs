@@ -18,14 +18,13 @@ namespace StrategyGameDemo
 		
 		public int MaxSize => gridSizeX * gridSizeY;
 		
-		private void Start()
+		private void Awake()
 		{
 			InitializeGrid();
 		}
 
 		#region Gizmos
 
-		public List<Node> Path;
 		private void OnDrawGizmos()
 		{
 			if (!showDebug) return;
@@ -42,10 +41,7 @@ namespace StrategyGameDemo
 			{
 				foreach (var n in grid)
 				{
-					Gizmos.color = n.IsWalkable ? Color.white : Color.red;
-					if (Path != null)
-						if (Path.Contains(n))
-							Gizmos.color = Color.black;
+					Gizmos.color = n.IsWalkable ? new Color(1, 1, 1, 0.25f) : Color.red;
 					Gizmos.DrawCube(n.WorldPosition, Vector3.one * (nodeDiameter - 0.1f));
 				}
 			}

@@ -1,3 +1,5 @@
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -5,9 +7,6 @@ namespace StrategyGameDemo
 {
 	public class Pathfinding : MonoBehaviour
 	{
-		public Transform seeker;
-		public Transform target;
-		
 		private const int DIAGONAL_COST = 14;
 		private const int STRAIGHT_COST = 10;
 		
@@ -15,11 +14,17 @@ namespace StrategyGameDemo
 		
 		private Heap<Node> openSet;
 		private HashSet<Node> closedSet = new HashSet<Node>();
+		
+		private PathRequestManager pathRequestManager;
+
+		private void Awake()
+		{
+			gridController = GetComponent<GridController>();
+			pathRequestManager = GetComponent<PathRequestManager>();
+		}
 
 		private void Start()
 		{
-			gridController = GetComponent<GridController>();
-
 			Initialize();
 		}
 
@@ -28,17 +33,21 @@ namespace StrategyGameDemo
 			openSet = new Heap<Node>(gridController.MaxSize);
 		}
 
-		private void Update()
+		public void StartFindPath(Vector2 startPos, Vector2 targetPos)
 		{
-			if (Input.GetKeyDown(KeyCode.Space))
-				FindPath(seeker.position, target.position);
+			StartCoroutine(FindPath(startPos, targetPos));
 		}
 
-		private void FindPath(Vector2 startPos, Vector2 endPos)
+		IEnumerator FindPath(Vector2 startPos, Vector2 endPos)
 		{
+			Vector2[] waypoints = new Vector2[0];
+			bool pathFound = false;
+			
 			Node startNode = gridController.GetNode(startPos);
 			Node endNode = gridController.GetNode(endPos);
 
+			if (!endNode.IsWalkable) yield break;
+			
 			openSet.Clear();
 			closedSet.Clear();
 			
@@ -51,8 +60,8 @@ namespace StrategyGameDemo
 
 				if (currentNode == endNode)
 				{
-					RetracePath(startNode, endNode);
-					return;
+					pathFound = true;
+					break;
 				}
 
 				foreach (var neighbour in gridController.GetNeighbours(currentNode))
@@ -69,13 +78,23 @@ namespace StrategyGameDemo
 						
 						if (!openSet.Contains(neighbour))
 							openSet.Add(neighbour);
+						else
+							openSet.UpdateItem(neighbour);
 					}
 				}
 				
 			}
+
+			yield return null;
+
+			if (pathFound)
+			{
+				waypoints = RetracePath(startNode, endNode);
+			}
+			pathRequestManager.FinishedProcessing(waypoints, pathFound);
 		}
 
-		private void RetracePath(Node startNode, Node endNode)
+		private Vector2[] RetracePath(Node startNode, Node endNode)
 		{
 			List<Node> path = new List<Node>();
 			Node currentNode = endNode;
@@ -85,10 +104,31 @@ namespace StrategyGameDemo
 				path.Add(currentNode);
 				currentNode = currentNode.Parent;
 			}
-			
-			path.Reverse();
-			
-			gridController.Path = path;
+
+			Vector2[] waypoints = SimplifyPath(path);
+			Array.Reverse(waypoints);
+			return waypoints;
+		}
+
+		private Vector2[] SimplifyPath(List<Node> path)
+		{
+			List<Vector2> waypoints = new List<Vector2>();
+			Vector2 directionOld = Vector2.zero;
+
+			for (int i = 1; i < path.Count; i++)
+			{
+				Vector2 directionNew = new Vector2(path[i-1].GridX - path[i].GridX, path[i-1].GridY - path[i].GridY);
+				if (directionNew != directionOld)
+				{
+					waypoints.Add(path[i-1].WorldPosition);
+				}
+				directionOld = directionNew;
+			}
+
+			if (path.Count > 0)
+				waypoints.Add(path[^1].WorldPosition);
+
+			return waypoints.ToArray();
 		}
 
 		private int GetDistance(Node start, Node end)
