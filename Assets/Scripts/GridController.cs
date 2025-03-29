@@ -9,9 +9,14 @@ namespace StrategyGameDemo
 		[SerializeField] private float nodeRadius;
 		[SerializeField] private LayerMask unwalkableMask;
 
+		[Header("DEBUG")]
+		[SerializeField] private bool showDebug;
+		
 		private Node[,] grid;
 		private float nodeDiameter;
 		private int gridSizeX, gridSizeY;
+		
+		public int MaxSize => gridSizeX * gridSizeY;
 		
 		private void Start()
 		{
@@ -23,6 +28,8 @@ namespace StrategyGameDemo
 		public List<Node> Path;
 		private void OnDrawGizmos()
 		{
+			if (!showDebug) return;
+				
 			DrawGridOutline();
 			DrawGrid();
 		}

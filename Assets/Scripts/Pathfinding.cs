@@ -12,40 +12,41 @@ namespace StrategyGameDemo
 		private const int STRAIGHT_COST = 10;
 		
 		private GridController gridController;
+		
+		private Heap<Node> openSet;
+		private HashSet<Node> closedSet = new HashSet<Node>();
 
 		private void Start()
 		{
 			gridController = GetComponent<GridController>();
+
+			Initialize();
+		}
+
+		private void Initialize()
+		{
+			openSet = new Heap<Node>(gridController.MaxSize);
 		}
 
 		private void Update()
 		{
-			FindPath(seeker.position, target.position);
+			if (Input.GetKeyDown(KeyCode.Space))
+				FindPath(seeker.position, target.position);
 		}
 
 		private void FindPath(Vector2 startPos, Vector2 endPos)
 		{
 			Node startNode = gridController.GetNode(startPos);
 			Node endNode = gridController.GetNode(endPos);
-			
-			List<Node> openSet = new List<Node>();
-			HashSet<Node> closedSet = new HashSet<Node>();
+
+			openSet.Clear();
+			closedSet.Clear();
 			
 			openSet.Add(startNode);
 
 			while (openSet.Count > 0)
 			{
-				Node currentNode = openSet[0];
-
-				for (int i = 0; i < openSet.Count; i++)
-				{
-					if (openSet[i].FCost < currentNode.FCost || openSet[i].FCost == currentNode.FCost && openSet[i].HCost < currentNode.HCost)
-					{
-						currentNode = openSet[i];
-					}
-				}
-				
-				openSet.Remove(currentNode);
+				Node currentNode = openSet.RemoveFirst();
 				closedSet.Add(currentNode);
 
 				if (currentNode == endNode)
