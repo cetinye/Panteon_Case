@@ -15,5 +15,7 @@ namespace StrategyGameDemo.Data
         public float Health = 10f;
         public float AttackDamage = 5f;
         public float Range = 1f;
+        public float MovementSpeed = 3;
+        public float RotationSpeed = 5;
     }
 }

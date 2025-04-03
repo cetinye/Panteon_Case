@@ -7,13 +7,19 @@ namespace StrategyGameDemo
 {
 	public class PathFollow : MonoBehaviour
 	{
-		[SerializeField] private float movementSpeed;
-		[SerializeField] private float rotationSpeed;
+		private float movementSpeed;
+		private float rotationSpeed;
 		
 		private Vector2[] path;
 		private int targetIndex;
 
 		private IEnumerator followPathRoutine;
+
+		public void SetValues(float movementSpeed, float rotationSpeed)
+		{
+			this.movementSpeed = movementSpeed;
+			this.rotationSpeed = rotationSpeed;
+		}
 
 		public void SetDestination(Vector3 targetPosition)
 		{

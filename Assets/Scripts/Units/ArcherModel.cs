@@ -7,10 +7,5 @@ namespace StrategyGameDemo.Models
 	{
 		public override UnitTypes UnitType => UnitTypes.Archer;
 		
-		public ArcherModel()
-		{
-			Health = 10;
-			AttackDamage = 5;
-		}
 	}
 }

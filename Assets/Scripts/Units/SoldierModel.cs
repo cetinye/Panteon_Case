@@ -7,10 +7,5 @@ namespace StrategyGameDemo.Models
 	{
 		public override UnitTypes UnitType => UnitTypes.Soldier;
 		
-		public SoldierModel()
-		{
-			Health = 10;
-			AttackDamage = 10;
-		}
 	}
 }

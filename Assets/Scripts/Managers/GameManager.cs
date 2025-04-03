@@ -31,8 +31,7 @@ namespace StrategyGameDemo
 
 		private void Start()
 		{
-			// UnitFactory.Initialize();
-			// gridController.InitializeGrid();
+			Initialize();
 		}
 
 		[ContextMenu("Start Game")]

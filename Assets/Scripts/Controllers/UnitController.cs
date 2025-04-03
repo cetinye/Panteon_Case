@@ -27,7 +27,7 @@ namespace StrategyGameDemo
 
 		public void Initialize()
 		{
-			model = UnitFactory.GetUnit(UnitTypes.Soldier);
+			model = UnitFactory.GetUnit(UnitTypes.Spearman);
 
 			view = GetComponent<UnitView>();
 			view.SetUnitSprite(model.UnitSprite);
@@ -36,15 +36,14 @@ namespace StrategyGameDemo
 			attackBehaviour = GetComponent<IAttackBehaviour>();
 			
 			pathFollow = GetComponent<PathFollow>();
+			pathFollow.SetValues(model.MovementSpeed, model.RotationSpeed);
 			
 			model.OnHealthChanged += UpdateHealth;
 		}
 		
 		public void LeftClick()
 		{
-			print("Left Clicked Unit");
 			Select();
-			print(model.IsSelected);
 		}
 
 		public void RightClick(Vector3 position)

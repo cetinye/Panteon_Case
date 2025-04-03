@@ -13,6 +13,8 @@ namespace StrategyGameDemo.Models
 		public float Health;
 		public float AttackDamage;
 		public float Range;
+		public float MovementSpeed;
+		public float RotationSpeed;
 
 		public event Action<float> OnHealthChanged;
 
@@ -24,6 +26,8 @@ namespace StrategyGameDemo.Models
 			Health = data.Health;
 			AttackDamage = data.AttackDamage;
 			Range = data.Range;
+			MovementSpeed = data.MovementSpeed;
+			RotationSpeed = data.RotationSpeed;
 		}
 
 		public virtual void TakeDamage(float damage)
@@ -46,6 +50,7 @@ namespace StrategyGameDemo.Models
 	{
 		None,
 		Soldier,
+		Spearman,
 		Archer
 	}
 }
