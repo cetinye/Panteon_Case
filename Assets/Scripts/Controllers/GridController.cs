@@ -5,6 +5,7 @@ namespace StrategyGameDemo
 {
 	public class GridController : MonoBehaviour
 	{
+		[SerializeField] private Pathfinding pathfinding;
 		[SerializeField] private Vector2 gridWorldSize;
 		[SerializeField] private float nodeRadius;
 		[SerializeField] private LayerMask unwalkableMask;
@@ -17,11 +18,6 @@ namespace StrategyGameDemo
 		private int gridSizeX, gridSizeY;
 		
 		public int MaxSize => gridSizeX * gridSizeY;
-		
-		private void Awake()
-		{
-			InitializeGrid();
-		}
 
 		#region Gizmos
 
@@ -49,11 +45,13 @@ namespace StrategyGameDemo
 
 		#endregion
 
-		private void InitializeGrid()
+		public void InitializeGrid()
 		{
 			nodeDiameter = nodeRadius * 2;
 			gridSizeX = Mathf.RoundToInt(gridWorldSize.x / nodeDiameter);
 			gridSizeY = Mathf.RoundToInt(gridWorldSize.y / nodeDiameter);
+			
+			pathfinding.Initialize();
 			
 			SpawnGrid();
 		}

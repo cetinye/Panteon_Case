@@ -7,19 +7,17 @@ namespace StrategyGameDemo
 {
 	public class PathFollow : MonoBehaviour
 	{
-		public Transform target;
-		
-		[SerializeField] private float speed;
+		[SerializeField] private float movementSpeed;
+		[SerializeField] private float rotationSpeed;
 		
 		private Vector2[] path;
 		private int targetIndex;
 
 		private IEnumerator followPathRoutine;
 
-		private void Update()
+		public void SetDestination(Vector3 targetPosition)
 		{
-			if (Input.GetKeyDown(KeyCode.Space))
-				PathRequestManager.RequestPath(transform.position, target.position, OnPathFound);
+			PathRequestManager.RequestPath(transform.position, targetPosition, OnPathFound);
 		}
 
 		private void OnDrawGizmos()
@@ -75,8 +73,23 @@ namespace StrategyGameDemo
 					current = path[targetIndex];
 				}
 				
-				transform.position = Vector2.MoveTowards(transform.position, current, speed * Time.deltaTime);
+				transform.position = Vector2.MoveTowards(transform.position, current, movementSpeed * Time.deltaTime);
+				LookAhead(current);
+				
 				yield return null;
+			}
+		}
+
+		private void LookAhead(Vector2 targetAhead)
+		{
+			Vector2 direction = (targetAhead - (Vector2)transform.position).normalized;
+			if (direction != Vector2.zero)
+			{
+				float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+				float currentAngle = transform.eulerAngles.z;
+
+				float smoothedAngle = Mathf.LerpAngle(currentAngle, angle, rotationSpeed * Time.deltaTime);
+				transform.rotation = Quaternion.Euler(0f, 0f, smoothedAngle);
 			}
 		}
 	}

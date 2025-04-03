@@ -23,12 +23,7 @@ namespace StrategyGameDemo
 			pathRequestManager = GetComponent<PathRequestManager>();
 		}
 
-		private void Start()
-		{
-			Initialize();
-		}
-
-		private void Initialize()
+		public void Initialize()
 		{
 			openSet = new Heap<Node>(gridController.MaxSize);
 		}
@@ -46,7 +41,11 @@ namespace StrategyGameDemo
 			Node startNode = gridController.GetNode(startPos);
 			Node endNode = gridController.GetNode(endPos);
 
-			if (!endNode.IsWalkable) yield break;
+			if (!endNode.IsWalkable)
+			{
+				pathRequestManager.FinishedProcessing(Array.Empty<Vector2>(), false);
+				yield break;
+			}
 			
 			openSet.Clear();
 			closedSet.Clear();
