@@ -17,6 +17,10 @@ namespace StrategyGameDemo
 		private float nodeDiameter;
 		private int gridSizeX, gridSizeY;
 		
+		private MeshFilter meshFilter;
+		private MeshRenderer meshRenderer;
+		[SerializeField] private Material meshMaterial;
+		
 		public int MaxSize => gridSizeX * gridSizeY;
 
 		#region Gizmos
@@ -53,14 +57,21 @@ namespace StrategyGameDemo
 			
 			pathfinding.Initialize();
 			
+			meshFilter = gameObject.AddComponent<MeshFilter>();
+			meshRenderer = gameObject.AddComponent<MeshRenderer>();
+			meshRenderer.material = meshMaterial;
+			
 			SpawnGrid();
 		}
 
 		private void SpawnGrid()
 		{
-			grid = new Node[gridSizeX,gridSizeY];
-			
+			grid = new Node[gridSizeX, gridSizeY];
 			Vector3 worldBottomLeft = transform.position - Vector3.right * gridWorldSize.x / 2 - Vector3.up * gridWorldSize.y / 2;
+
+			List<Vector3> vertices = new List<Vector3>();
+			List<int> triangles = new List<int>();
+			List<Color> colors = new List<Color>();
 
 			for (int y = 0; y < gridSizeY; y++)
 			{
@@ -68,9 +79,35 @@ namespace StrategyGameDemo
 				{
 					Vector3 worldPoint = worldBottomLeft + Vector3.right * (x * nodeDiameter + nodeRadius) + Vector3.up * (y * nodeDiameter + nodeRadius);
 					bool walkable = !Physics2D.OverlapCircle(worldPoint, nodeRadius, unwalkableMask);
-					grid[x,y] = new Node(walkable, worldPoint, x, y);
+					grid[x, y] = new Node(walkable, worldPoint, x, y);
+
+					float halfSize = nodeRadius - 0.05f;
+					int vertIndex = vertices.Count;
+					vertices.Add(worldPoint + new Vector3(-halfSize, -halfSize, 0));
+					vertices.Add(worldPoint + new Vector3(halfSize, -halfSize, 0));
+					vertices.Add(worldPoint + new Vector3(halfSize, halfSize, 0));
+					vertices.Add(worldPoint + new Vector3(-halfSize, halfSize, 0));
+
+					triangles.Add(vertIndex);
+					triangles.Add(vertIndex + 1);
+					triangles.Add(vertIndex + 2);
+					triangles.Add(vertIndex);
+					triangles.Add(vertIndex + 2);
+					triangles.Add(vertIndex + 3);
+
+					Color color = walkable ? new Color(1, 1, 1, 0.25f) : Color.red;
+					colors.Add(color);
+					colors.Add(color);
+					colors.Add(color);
+					colors.Add(color);
 				}
 			}
+
+			Mesh mesh = new Mesh();
+			mesh.vertices = vertices.ToArray();
+			mesh.triangles = triangles.ToArray();
+			mesh.colors = colors.ToArray();
+			meshFilter.mesh = mesh;
 		}
 
 		public Node GetNode(Vector2 worldPosition)

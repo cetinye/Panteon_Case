@@ -17,3 +17,5 @@ MonoBehaviour:
   Health: 10
   AttackDamage: 2
   Range: 5
+  MovementSpeed: 3
+  RotationSpeed: 8

@@ -7,7 +7,8 @@ namespace StrategyGameDemo.Models
 	{
 		public abstract UnitTypes UnitType { get; }
 		
-		[Header("Visual")] public Sprite UnitSprite;
+		[Header("Visual")]
+		public Sprite UnitSprite;
 		
 		[Header("Stat Variables")]
 		public float Health;

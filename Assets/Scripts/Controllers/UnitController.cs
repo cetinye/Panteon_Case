@@ -1,4 +1,5 @@
 using System;
+using StrategyGameDemo.Factory;
 using StrategyGameDemo.Interfaces;
 using StrategyGameDemo.Models;
 using StrategyGameDemo.Views;
@@ -49,7 +50,7 @@ namespace StrategyGameDemo
 		public void RightClick(Vector3 position)
 		{
 			if (model.IsSelected)
-				pathFollow.SetDestination(position);
+				MoveTo(position);
 		}
 
 		private void Select()

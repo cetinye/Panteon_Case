@@ -28,7 +28,8 @@ namespace StrategyGameDemo.Managers
 
 			if (Input.GetMouseButtonDown(1))
 			{
-				selectedUnit.RightClick(mainCamera.ScreenToWorldPoint(Input.mousePosition));
+				if (selectedUnit != null)
+					selectedUnit.RightClick(mainCamera.ScreenToWorldPoint(Input.mousePosition));
 			}
 		}
 	}

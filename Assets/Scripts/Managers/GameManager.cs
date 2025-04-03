@@ -1,6 +1,8 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using StrategyGameDemo.Data;
+using StrategyGameDemo.Factory;
 using StrategyGameDemo.Models;
 using UnityEngine;
 
@@ -16,6 +18,9 @@ namespace StrategyGameDemo
 		
 		[Header("Unit SO")]
 		[SerializeField] private List<UnitSO> unitSOList = new List<UnitSO>();
+		
+		[Header("Building SO")]
+		[SerializeField] private List<BuildingSO> buildingSOList = new List<BuildingSO>();
 
 		private void Awake()
 		{
@@ -37,6 +42,7 @@ namespace StrategyGameDemo
 		[ContextMenu("Start Game")]
 		public void Initialize()
 		{
+			BuildingFactory.Initialize();
 			UnitFactory.Initialize();
 			gridController.InitializeGrid();
 		}
@@ -59,6 +65,11 @@ namespace StrategyGameDemo
 		public List<UnitSO> GetUnitsData()
 		{
 			return unitSOList;
+		}
+
+		public List<BuildingSO> GetBuildingsData()
+		{
+			return buildingSOList;
 		}
 	}
 }

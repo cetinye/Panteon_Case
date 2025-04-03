@@ -6,7 +6,7 @@ using UnityEngine;
 using StrategyGameDemo.Models;
 using StrategyGameDemo.Data;
 
-namespace StrategyGameDemo
+namespace StrategyGameDemo.Factory
 {
     public static class UnitFactory
     {
@@ -48,12 +48,12 @@ namespace StrategyGameDemo
                     if (modelEnum != UnitTypes.None && !unitModelTypes.ContainsKey(modelEnum))
                     {
                         unitModelTypes.Add(modelEnum, type);
-                         Debug.Log($"Discovered Model Type {type.Name} for {modelEnum}");
+                        Debug.Log($"Discovered Model Type {type.Name} for {modelEnum}");
 
-                         if (!unitDataAssets.ContainsKey(modelEnum))
-                         {
-                             Debug.LogWarning($"No UnitData asset found for discovered model type: {modelEnum} ({type.Name})");
-                         }
+                        if (!unitDataAssets.ContainsKey(modelEnum))
+                        {
+                            Debug.LogWarning($"No UnitData asset found for discovered model type: {modelEnum} ({type.Name})");
+                        }
                     }
                     else
                     {
@@ -89,7 +89,7 @@ namespace StrategyGameDemo
                  if (!unitModelTypes.ContainsKey(unitType))
                      Debug.LogError($"UnitFactory Error: No model type found for UnitType: {unitType}");
                  if (!unitDataAssets.ContainsKey(unitType))
-                     Debug.LogError($"UnitFactory Error: No UnitData asset found for UnitType: {unitType}. Make sure a UnitData asset exists in Resources/UnitData and has its UnitType set correctly.");
+                     Debug.LogError($"UnitFactory Error: No UnitData asset found for UnitType: {unitType}. Make sure a UnitData asset exists in Data folder and GameManager.");
             }
 
             return null;
