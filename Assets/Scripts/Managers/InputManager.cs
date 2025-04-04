@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using StrategyGameDemo.Interfaces;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -7,13 +9,14 @@ namespace StrategyGameDemo.Managers
 	public class InputManager : MonoBehaviour
 	{
 		[SerializeField] private GameManager gameManager;
-		private Camera mainCamera;
-		private ISelectBehaviour selectedUnit;
 		
 		[Header("Camera Drag Control")]
+		private Camera mainCamera;
 		private bool isDragging = false;
 		private Vector3 initialCameraPos;
 		private Vector2 initialMousePos;
+
+		public static Action<Vector3> OnRightClick;
 
 		private void Start()
 		{
@@ -33,7 +36,6 @@ namespace StrategyGameDemo.Managers
 				RaycastHit2D hitInfo = Physics2D.Raycast(mainCamera.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
 				if (hitInfo && hitInfo.collider.TryGetComponent(out ISelectBehaviour clickable))
 				{
-					selectedUnit = clickable;
 					clickable.LeftClick();
 				}
 			}
@@ -45,8 +47,7 @@ namespace StrategyGameDemo.Managers
 
 			if (Input.GetMouseButtonDown(1))
 			{
-				if (selectedUnit != null)
-					selectedUnit.RightClick(mainCamera.ScreenToWorldPoint(Input.mousePosition));
+				OnRightClick?.Invoke(mainCamera.ScreenToWorldPoint(Input.mousePosition));
 			}
 
 			CameraDrag();

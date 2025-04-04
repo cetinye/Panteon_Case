@@ -1,6 +1,7 @@
 using System;
 using StrategyGameDemo.Factory;
 using StrategyGameDemo.Interfaces;
+using StrategyGameDemo.Managers;
 using StrategyGameDemo.Models;
 using StrategyGameDemo.Views;
 using UnityEngine;
@@ -57,6 +58,15 @@ namespace StrategyGameDemo
 		{
 			model.IsSelected = !model.IsSelected;
 			view.SetSpriteColor(model.IsSelected ? Color.red : Color.white);
+
+			if (model.IsSelected)
+			{
+				InputManager.OnRightClick += OnRightClicked;
+			}
+			else
+			{
+				InputManager.OnRightClick -= OnRightClicked;
+			}
 		}
 
 		public void TakeDamage(float damage)
@@ -67,6 +77,11 @@ namespace StrategyGameDemo
 		public void Attack(UnitController unitToAttack)
 		{
 			attackBehaviour?.Attack(this, unitToAttack);
+		}
+
+		private void OnRightClicked(Vector3 position)
+		{
+			MoveTo(position);
 		}
 
 		public void MoveTo(Vector3 position)
