@@ -12,6 +12,7 @@ namespace StrategyGameDemo.Data
         public Sprite BuildingSprite;
 
         [Header("Stats")] 
+        public string BuildingName;
         public Vector2 BuildingSize;
         public float Health = 100f;
     }

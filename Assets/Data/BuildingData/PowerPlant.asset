@@ -14,5 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   BuildingType: 2
   BuildingSprite: {fileID: 21300000, guid: c7fed04043d99bd42a99e9caa808e461, type: 3}
+  BuildingName: Power Plant
   BuildingSize: {x: 2, y: 3}
   Health: 50

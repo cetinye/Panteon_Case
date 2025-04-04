@@ -14,5 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   BuildingType: 1
   BuildingSprite: {fileID: 21300000, guid: c78ddeb1dc0202a40895ef7802e0970b, type: 3}
+  BuildingName: Barrack
   BuildingSize: {x: 4, y: 4}
   Health: 100

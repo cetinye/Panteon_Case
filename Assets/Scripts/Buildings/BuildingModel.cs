@@ -11,6 +11,7 @@ namespace StrategyGameDemo.Models
 		public Sprite BuildingSprite;
 		
 		[Header("Stat Variables")]
+		public string BuildingName;
 		public float Health;
 		public Vector2 BuildingSize;
 
@@ -19,6 +20,7 @@ namespace StrategyGameDemo.Models
 		
 		public virtual void InitializeFromData(Data.BuildingSO data)
 		{
+			BuildingName = data.BuildingName;
 			BuildingSprite = data.BuildingSprite;
 			Health = data.Health;
 			BuildingSize = data.BuildingSize;
