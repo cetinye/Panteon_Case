@@ -16,7 +16,6 @@ namespace StrategyGameDemo.Models
 		public Vector2 BuildingSize;
 
 		public event Action<float> OnHealthChanged;
-		public event Action OnBuildingPlaced;
 		
 		public virtual void InitializeFromData(Data.BuildingSO data)
 		{

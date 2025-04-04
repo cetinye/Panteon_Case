@@ -12,7 +12,7 @@ namespace StrategyGameDemo
 		private BuildingView view;
 		
 		private BoxCollider2D boxCollider;
-
+		
 		private void Start()
 		{
 			Initialize();

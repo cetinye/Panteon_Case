@@ -7,9 +7,13 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -1456710799511341540, guid: 9b6313d2e25530f43af65eba7280752d, type: 3}
+      propertyPath: buildingType
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8003319672252033148, guid: 9b6313d2e25530f43af65eba7280752d, type: 3}
       propertyPath: m_Name
-      value: ProductionMenuElement
+      value: Barrack
       objectReference: {fileID: 0}
     - target: {fileID: 8003319672252033149, guid: 9b6313d2e25530f43af65eba7280752d, type: 3}
       propertyPath: m_Pivot.x

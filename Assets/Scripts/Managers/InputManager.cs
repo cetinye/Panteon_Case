@@ -17,6 +17,7 @@ namespace StrategyGameDemo.Managers
 		private Vector2 initialMousePos;
 
 		public static Action<Vector3> OnRightClick;
+		public static Action<Vector3> OnLeftClick;
 
 		private void Start()
 		{
@@ -25,10 +26,10 @@ namespace StrategyGameDemo.Managers
 
 		void Update()
 		{
-			if (IsMouseOverUI()) return;
-			
 			if (Input.GetMouseButtonDown(0))
 			{
+				if (IsMouseOverUI()) return;
+				
 				isDragging = true;
 				initialMousePos = Input.mousePosition;
 				initialCameraPos = mainCamera.transform.position;
@@ -38,11 +39,15 @@ namespace StrategyGameDemo.Managers
 				{
 					clickable.LeftClick();
 				}
+				
 			}
 			
 			if (Input.GetMouseButtonUp(0))
 			{
 				isDragging = false;
+				
+				if (initialMousePos.Equals(Input.mousePosition))
+					OnLeftClick?.Invoke(mainCamera.ScreenToWorldPoint(Input.mousePosition));
 			}
 
 			if (Input.GetMouseButtonDown(1))
@@ -53,9 +58,14 @@ namespace StrategyGameDemo.Managers
 			CameraDrag();
 		}
 
+		public Vector3 GetMousePosition()
+		{
+			return mainCamera.ScreenToWorldPoint(Input.mousePosition);
+		}
+
 		private void CameraDrag()
 		{
-			if (isDragging && mainCamera != null && !IsMouseOverUI())
+			if (isDragging && mainCamera != null)
 			{
 				Vector2 currentMousePos = Input.mousePosition;
 				Vector2 delta = currentMousePos - initialMousePos;

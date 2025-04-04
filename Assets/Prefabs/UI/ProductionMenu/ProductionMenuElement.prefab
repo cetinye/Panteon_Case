@@ -88,6 +88,7 @@ GameObject:
   - component: {fileID: 8003319672252033088}
   - component: {fileID: 8003319672252033091}
   - component: {fileID: 8003319672252033090}
+  - component: {fileID: -1456710799511341540}
   - component: {fileID: 7711152373659908027}
   m_Layer: 5
   m_Name: ProductionMenuElement
@@ -182,6 +183,18 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!114 &-1456710799511341540
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8003319672252033148}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d13d588e2a7e2bb4896253c9327d420d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &7711152373659908027
 MonoBehaviour:
   m_ObjectHideFlags: 0
