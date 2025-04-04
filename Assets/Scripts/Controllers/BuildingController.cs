@@ -1,12 +1,13 @@
 using System;
 using StrategyGameDemo.Factory;
+using StrategyGameDemo.Interfaces;
 using StrategyGameDemo.Models;
 using StrategyGameDemo.Views;
 using UnityEngine;
 
 namespace StrategyGameDemo
 {
-	public class BuildingController : MonoBehaviour
+	public class BuildingController : MonoBehaviour, ISelectBehaviour
 	{
 		private BuildingModel model;
 		private BuildingView view;
@@ -51,6 +52,16 @@ namespace StrategyGameDemo
 		private void UpdateHealth(float health)
 		{
 			view.UpdateHealthText(health);
+		}
+
+		public void LeftClick()
+		{
+			BuildingView.OnBuildingSelect?.Invoke(model);
+		}
+
+		public void RightClick(Vector3 position)
+		{
+			
 		}
 	}
 }

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace StrategyGameDemo.Models
@@ -14,6 +15,7 @@ namespace StrategyGameDemo.Models
 		public string BuildingName;
 		public float Health;
 		public Vector2 BuildingSize;
+		public List<UnitTypes> ProducableUnits;
 
 		public event Action<float> OnHealthChanged;
 		
@@ -23,6 +25,7 @@ namespace StrategyGameDemo.Models
 			BuildingSprite = data.BuildingSprite;
 			Health = data.Health;
 			BuildingSize = data.BuildingSize;
+			ProducableUnits = data.ProducableUnits;
 		}
 		
 		public virtual void TakeDamage(float damage)

@@ -1,3 +1,5 @@
+using System;
+using StrategyGameDemo.Models;
 using TMPro;
 using UnityEngine;
 
@@ -10,6 +12,8 @@ namespace StrategyGameDemo.Views
 		
 		[Header("Information Panel")]
 		[SerializeField] private TMP_Text healthText;
+		
+		public static Action<BuildingModel> OnBuildingSelect;
 
 		private void Awake()
 		{

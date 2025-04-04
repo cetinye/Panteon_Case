@@ -46,6 +46,7 @@ namespace StrategyGameDemo
 		public void LeftClick()
 		{
 			Select();
+			UnitView.OnUnitSelect?.Invoke(model);
 		}
 
 		public void RightClick(Vector3 position)

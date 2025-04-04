@@ -17,3 +17,4 @@ MonoBehaviour:
   BuildingName: Barrack
   BuildingSize: {x: 4, y: 4}
   Health: 100
+  ProducableUnits: 010000000200000003000000

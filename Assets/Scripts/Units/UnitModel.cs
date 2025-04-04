@@ -9,8 +9,9 @@ namespace StrategyGameDemo.Models
 		
 		[Header("Visual")]
 		public Sprite UnitSprite;
-		
+
 		[Header("Stat Variables")]
+		public string UnitName;
 		public float Health;
 		public float AttackDamage;
 		public float Range;
@@ -23,6 +24,7 @@ namespace StrategyGameDemo.Models
 		
 		public virtual void InitializeFromData(Data.UnitSO data)
 		{
+			UnitName = data.UnitName;
 			UnitSprite = data.UnitSprite;
 			Health = data.Health;
 			AttackDamage = data.AttackDamage;
