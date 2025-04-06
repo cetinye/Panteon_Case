@@ -18,5 +18,8 @@ namespace StrategyGameDemo.Data
         public float Range = 1f;
         public float MovementSpeed = 3;
         public float RotationSpeed = 5;
+        
+        [Header("Prefab")]
+        public GameObject Prefab;
     }
 }

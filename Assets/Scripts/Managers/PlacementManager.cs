@@ -56,7 +56,7 @@ namespace StrategyGameDemo.Managers
 			StopPreview();
 			
 			previewModel = BuildingFactory.GetBuilding(selectionType);
-			previewObject = ConcreteBuildingFactory.CreateBuildingInstance(selectionType, transform.position, transform.rotation, transform);
+			previewObject = ConcreteBuildingFactory.CreateBuildingInstance(selectionType, transform.position, transform.rotation, transform, null, true);
 			previewBuildingController = previewObject.GetComponent<BuildingController>();
 			previewRenderer = previewBuildingController.GetRenderer();
 			selectedType = selectionType;
@@ -74,16 +74,17 @@ namespace StrategyGameDemo.Managers
 
 		private void OnLeftClicked(Vector3 pos)
 		{
-			PlaceBuilding(GridController.Instance.SnapToGridPos(pos), previewModel);
+			Node placedNode = GridController.Instance.GetNode(pos);
+			PlaceBuilding(placedNode.WorldPosition, placedNode,previewModel);
 			StopPreview();
 			isPlaceable = false;
 		}
 		
-		public void PlaceBuilding(Vector3 position, BuildingModel buildingModel)
+		public void PlaceBuilding(Vector3 position, Node placedNode, BuildingModel buildingModel)
 		{
 			if (!isPlaceable) return;
 			
-			var spawnedBuilding = ConcreteBuildingFactory.CreateBuildingInstance(buildingModel.BuildingType, position, transform.rotation);
+			var spawnedBuilding = ConcreteBuildingFactory.CreateBuildingInstance(buildingModel.BuildingType, position, transform.rotation, null, placedNode);
 			
 			OnBuildingPlace?.Invoke(position, buildingModel.BuildingSize);
 		}

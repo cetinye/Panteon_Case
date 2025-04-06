@@ -6,7 +6,7 @@ namespace StrategyGameDemo.Factory
 {
     public static class ConcreteBuildingFactory
     {
-        public static GameObject CreateBuildingInstance(BuildingTypes buildingType, Vector3 position, Quaternion rotation, Transform parent = null)
+        public static GameObject CreateBuildingInstance(BuildingTypes buildingType, Vector3 position, Quaternion rotation, Transform parent = null, Node placedNode = null, bool isPreview = false)
         {
             if (!BuildingFactory.GetBuildingData(buildingType, out BuildingSO data))
             {
@@ -20,7 +20,7 @@ namespace StrategyGameDemo.Factory
             BuildingController controller = instance.GetComponent<BuildingController>();
             if (controller != null)
             {
-                controller.Initialize();
+                controller.Initialize(placedNode, isPreview);
             }
 
             return instance;

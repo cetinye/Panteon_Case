@@ -94,5 +94,16 @@ namespace StrategyGameDemo.Factory
 
             return null;
         }
+        
+        public static bool GetUnitData(UnitTypes unitType, out UnitSO data)
+        {
+            Initialize();
+            if (unitDataAssets.TryGetValue(unitType, out data))
+            {
+                return data != null;
+            }
+            
+            return false;
+        }
     }
 }

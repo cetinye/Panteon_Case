@@ -13,7 +13,7 @@ namespace StrategyGameDemo.Views
 		
 		[Header("Information Panel")]
 		[SerializeField] private TMP_Text healthText;
-		
+
 		private void Awake()
 		{
 			spriteRenderer = GetComponentInChildren<SpriteRenderer>();

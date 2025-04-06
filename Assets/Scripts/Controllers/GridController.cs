@@ -228,11 +228,9 @@ namespace StrategyGameDemo
 			return neighbours;
 		}
 
-		public Vector3 SnapToGridPos(Vector3 worldPosition)
+		public Vector2 GetWorldSize()
 		{
-			Node n = GetNode(worldPosition);
-
-			return n.WorldPosition;
+			return gridWorldSize;
 		}
 	}
 }

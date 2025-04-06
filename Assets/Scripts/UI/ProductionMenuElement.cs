@@ -14,7 +14,11 @@ namespace StrategyGameDemo.UI
 		private void Start()
 		{
 			button = GetComponent<Button>();
-			button.onClick.AddListener(() => PlacementManager.Instance.PreviewBuilding(buildingType));
+			button.onClick.AddListener(() =>
+			{
+				UIManager.Instance.ClearBuildingInformation();
+				PlacementManager.Instance.PreviewBuilding(buildingType);
+			});
 		}
 	}
 }

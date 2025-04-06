@@ -16,6 +16,10 @@ namespace StrategyGameDemo.Models
 		public float Health;
 		public Vector2 BuildingSize;
 		public List<UnitTypes> ProducableUnits;
+		public Vector3 UnitSpawnPosition;
+
+		[Header("Placed Grid Node")] 
+		public Node PlacedNode;
 
 		public event Action<float> OnHealthChanged;
 		
@@ -26,6 +30,16 @@ namespace StrategyGameDemo.Models
 			Health = data.Health;
 			BuildingSize = data.BuildingSize;
 			ProducableUnits = data.ProducableUnits;
+		}
+
+		public void SetUnitSpawnPosition(Vector3 position)
+		{
+			UnitSpawnPosition = position;
+		}
+
+		public void SetPlacedNode(Node placedNode)
+		{
+			PlacedNode = placedNode;
 		}
 		
 		public virtual void TakeDamage(float damage)

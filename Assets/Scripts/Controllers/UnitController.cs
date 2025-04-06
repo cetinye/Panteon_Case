@@ -10,6 +10,8 @@ namespace StrategyGameDemo
 {
 	public class UnitController : MonoBehaviour, ISelectBehaviour
 	{
+		[SerializeField] private UnitTypes unitType;
+		
 		private UnitModel model;
 		private UnitView view;
 
@@ -29,7 +31,7 @@ namespace StrategyGameDemo
 
 		public void Initialize()
 		{
-			model = UnitFactory.GetUnit(UnitTypes.Spearman);
+			model = UnitFactory.GetUnit(unitType);
 
 			view = GetComponent<UnitView>();
 			view.SetUnitSprite(model.UnitSprite);

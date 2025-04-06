@@ -14,6 +14,7 @@ namespace StrategyGameDemo.UI
 		[SerializeField] private Image buildingImage;
 		[SerializeField] private GameObject productionInformationPanel;
 		[SerializeField] private UnitProductionInformation unitProductionInformation;
+		private BuildingModel activeBuildingModel;
 		
 		[Header("Unit Information Components")]
 		[SerializeField] private GameObject unitInformationPanel;
@@ -24,6 +25,7 @@ namespace StrategyGameDemo.UI
 
 		public void ShowBuildingInformation(BuildingModel buildingModel)
 		{
+			activeBuildingModel = buildingModel;
 			ClearBuildingInformation();
 			
 			buildingName.text = buildingModel.BuildingName;
@@ -35,7 +37,7 @@ namespace StrategyGameDemo.UI
 				{
 					var spawnableUnit = Instantiate(unitProductionInformation, productionInformationPanel.transform);
 					var spawnableModel = UnitFactory.GetUnit(producableUnit);
-					spawnableUnit.Initialize(spawnableModel.UnitName, spawnableModel.UnitSprite);
+					spawnableUnit.Initialize(spawnableModel);
 				}
 			}
 			
@@ -43,12 +45,22 @@ namespace StrategyGameDemo.UI
 			SetBuildingInformationState(true);
 		}
 
-		private void ClearBuildingInformation()
+		public void ClearBuildingInformation()
 		{
 			for (int i = 0; i < productionInformationPanel.transform.childCount; i++)
 			{
 				Destroy(productionInformationPanel.transform.GetChild(i).gameObject);
 			}
+		}
+		
+		public void ClearInformationPanel()
+		{
+			for (int i = 0; i < productionInformationPanel.transform.childCount; i++)
+			{
+				Destroy(productionInformationPanel.transform.GetChild(i).gameObject);
+			}
+			
+			SetBuildingInformationState(false);
 		}
 
 		private void SetBuildingInformationState(bool state)
@@ -70,6 +82,11 @@ namespace StrategyGameDemo.UI
 		private void SetUnitInformationState(bool state)
 		{
 			unitInformationPanel.SetActive(state);
+		}
+		
+		public BuildingModel GetActiveBuildingModel()
+		{
+			return activeBuildingModel;
 		}
 	}
 }

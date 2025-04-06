@@ -102,7 +102,7 @@ namespace StrategyGameDemo.Factory
             {
                 return data != null;
             }
-            data = null;
+            
             return false;
         }
     }

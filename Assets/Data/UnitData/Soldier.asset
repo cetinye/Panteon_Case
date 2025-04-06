@@ -20,3 +20,4 @@ MonoBehaviour:
   Range: 1
   MovementSpeed: 3
   RotationSpeed: 8
+  Prefab: {fileID: 7949321271947978941, guid: ada0afc82f053ca4781ed1d4e4ff106b, type: 3}

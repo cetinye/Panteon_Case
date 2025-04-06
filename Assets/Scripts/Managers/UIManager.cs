@@ -8,10 +8,24 @@ namespace StrategyGameDemo.Managers
 {
 	public class UIManager : MonoBehaviour
 	{
+		public static UIManager Instance;
+		
 		[SerializeField] private InformationPanel informationPanel;
 
 		public static Action<BuildingModel> OnShowBuildingInfo;
 		public static Action<UnitModel> OnShowUnitInfo;
+
+		private void Awake()
+		{
+			if (Instance != null && Instance != this) 
+			{ 
+				Destroy(this); 
+			} 
+			else 
+			{ 
+				Instance = this; 
+			}
+		}
 
 		private void OnEnable()
 		{
@@ -33,6 +47,16 @@ namespace StrategyGameDemo.Managers
 		private void ShowUnitInformation(UnitModel unitModel)
 		{
 			informationPanel.ShowUnitInformation(unitModel);
+		}
+
+		public void ClearBuildingInformation()
+		{
+			informationPanel.ClearInformationPanel();
+		}
+
+		public BuildingModel GetActiveBuildingModel()
+		{
+			return informationPanel.GetActiveBuildingModel();
 		}
 	}
 }
