@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using StrategyGameDemo.Managers;
+using StrategyGameDemo.Models;
 using UnityEngine;
 
 namespace StrategyGameDemo
@@ -38,30 +39,35 @@ namespace StrategyGameDemo
 				Instance = this; 
 			}
 		}
+		
+		private void OnDisable()
+		{
+			PlacementManager.OnBuildingPlace -= OnBuildingPlaced;
+		}
 
 		#region Gizmos
 
-		private void OnDrawGizmos()
-		{
-			if (!showDebug) return;
-				
-			DrawGridOutline();
-			DrawGrid();
-		}
-		
-		private void DrawGridOutline() => Gizmos.DrawWireCube(transform.position, new Vector2(gridWorldSize.x, gridWorldSize.y));
-
-		private void DrawGrid()
-		{
-			if (grid != null)
-			{
-				foreach (var n in grid)
-				{
-					Gizmos.color = n.IsWalkable ? new Color(1, 1, 1, 0.25f) : Color.red;
-					Gizmos.DrawCube(n.WorldPosition, Vector3.one * (nodeDiameter - 0.1f));
-				}
-			}
-		}
+		// private void OnDrawGizmos()
+		// {
+		// 	if (!showDebug) return;
+		// 		
+		// 	DrawGridOutline();
+		// 	DrawGrid();
+		// }
+		//
+		// private void DrawGridOutline() => Gizmos.DrawWireCube(transform.position, new Vector2(gridWorldSize.x, gridWorldSize.y));
+		//
+		// private void DrawGrid()
+		// {
+		// 	if (grid != null)
+		// 	{
+		// 		foreach (var n in grid)
+		// 		{
+		// 			Gizmos.color = n.IsWalkable ? new Color(1, 1, 1, 0.25f) : Color.red;
+		// 			Gizmos.DrawCube(n.WorldPosition, Vector3.one * (nodeDiameter - 0.1f));
+		// 		}
+		// 	}
+		// }
 
 		#endregion
 
@@ -189,18 +195,20 @@ namespace StrategyGameDemo
 			return true;
 		}
 
-		private void OnBuildingPlaced(Vector3 pos, Vector2 buildingSize)
+		private void OnBuildingPlaced(Vector3 pos, BuildingModel model, BuildingController buildingController)
 		{
 			Node node = GetNode(pos);
 		
-			for (int x = 0; x < buildingSize.x; x++)
+			for (int x = 0; x < model.BuildingSize.x; x++)
 			{
-				for (int y = 0; y < buildingSize.y; y++)
+				for (int y = 0; y < model.BuildingSize.y; y++)
 				{
 					grid[node.GridX + x, node.GridY + y].IsWalkable = false;
+					buildingController.AddToOccupiedNodes(grid[node.GridX + x, node.GridY + y]);
 				}
 			}
 
+			buildingController.OnBuildingDestroyed += UpdateGridMesh;
 			UpdateGridMesh();
 		}
 

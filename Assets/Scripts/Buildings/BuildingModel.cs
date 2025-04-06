@@ -20,7 +20,8 @@ namespace StrategyGameDemo.Models
 
 		[Header("Placed Grid Node")] 
 		public Node PlacedNode;
-
+		public List<Node> OccupiedNodes = new List<Node>();
+		
 		public event Action<float> OnHealthChanged;
 		
 		public virtual void InitializeFromData(Data.BuildingSO data)
@@ -48,14 +49,7 @@ namespace StrategyGameDemo.Models
 			Health = Mathf.Max(Health, 0);
 			
 			OnHealthChanged?.Invoke(Health);
-
-			if (Health <= 0)
-			{
-				Die();
-			}
 		}
-
-		protected virtual void Die() { }
 	}
 
 	public enum BuildingTypes

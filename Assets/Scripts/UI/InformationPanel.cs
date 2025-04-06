@@ -23,6 +23,7 @@ namespace StrategyGameDemo.UI
 		[SerializeField] private Image unitImage;
 		[SerializeField] private TMP_Text unitHP;
 		[SerializeField] private TMP_Text unitAD;
+		private UnitModel activeUnitModel;
 
 		public void ShowBuildingInformation(BuildingModel buildingModel)
 		{
@@ -72,6 +73,7 @@ namespace StrategyGameDemo.UI
 		
 		public void ShowUnitInformation(UnitModel unitModel)
 		{
+			activeUnitModel = unitModel;
 			unitName.text = unitModel.UnitName;
 			unitImage.sprite = unitModel.UnitSprite;
 			unitHP.text = $"HP: {unitModel.Health:F0}";
@@ -89,6 +91,18 @@ namespace StrategyGameDemo.UI
 		public BuildingModel GetActiveBuildingModel()
 		{
 			return activeBuildingModel;
+		}
+
+		public void UpdateBuildingHealth(float health, BuildingModel buildingModel)
+		{
+			if (activeBuildingModel == buildingModel)
+				buildingHealth.text = $"HP: {health:F0}";
+		}
+
+		public void UpdateUnitHealth(float health, UnitModel unitModel)
+		{
+			if (activeUnitModel == unitModel)
+				unitHP.text = $"HP: {health:F0}";
 		}
 	}
 }

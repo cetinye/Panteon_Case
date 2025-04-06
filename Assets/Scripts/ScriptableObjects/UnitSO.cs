@@ -15,6 +15,7 @@ namespace StrategyGameDemo.Data
         public string UnitName;
         public float Health = 10f;
         public float AttackDamage = 5f;
+        public float AttackRange = 2.5f;
         public float MovementSpeed = 3;
         public float RotationSpeed = 5;
         

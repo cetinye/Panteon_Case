@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace StrategyGameDemo
 {
-	public class UnitController : MonoBehaviour, ISelectBehaviour
+	public class UnitController : MonoBehaviour, ISelectBehaviour, IDamageable
 	{
 		[SerializeField] private UnitTypes unitType;
 		
@@ -18,6 +18,7 @@ namespace StrategyGameDemo
 		private PathFollow pathFollow;
 
 		private IAttackBehaviour attackBehaviour;
+		private IDamageable damageable;
 
 		private void Start()
 		{
@@ -35,9 +36,9 @@ namespace StrategyGameDemo
 
 			view = GetComponent<UnitView>();
 			view.SetUnitSprite(model.UnitSprite);
-			view.UpdateHealthText(model.Health);
 			
 			attackBehaviour = GetComponent<IAttackBehaviour>();
+			damageable = GetComponent<IDamageable>();
 			
 			pathFollow = GetComponent<PathFollow>();
 			pathFollow.SetValues(model.MovementSpeed, model.RotationSpeed);
@@ -48,13 +49,12 @@ namespace StrategyGameDemo
 		public void LeftClick()
 		{
 			Select();
-			UnitView.OnUnitSelect?.Invoke(model);
+			view.ShowUnitInfo(model);
 		}
 
-		public void RightClick(Vector3 position)
+		public void RightClick()
 		{
-			if (model.IsSelected)
-				MoveTo(position);
+			
 		}
 
 		private void Select()
@@ -64,27 +64,45 @@ namespace StrategyGameDemo
 
 			if (model.IsSelected)
 			{
-				InputManager.OnRightClick += OnRightClicked;
+				InputManager.OnRightClick += Move;
+				InputManager.OnRightClickUnit += Combat;
+
 			}
 			else
 			{
-				InputManager.OnRightClick -= OnRightClicked;
+				InputManager.OnRightClick -= Move;
+				InputManager.OnRightClickUnit -= Combat;
 			}
 		}
 
 		public void TakeDamage(float damage)
 		{
 			model.TakeDamage(damage);
+			
+			if (model.Health <= 0)
+			{
+				gameObject.SetActive(false);
+			}
 		}
 
-		public void Attack(UnitController unitToAttack)
+		public float GetDamage()
 		{
-			attackBehaviour?.Attack(this, unitToAttack);
+			return model.AttackDamage;
 		}
 
-		private void OnRightClicked(Vector3 position)
+		public void Attack(IDamageable unitToAttack)
+		{
+			attackBehaviour?.Attack(damageable, unitToAttack, model.Range);
+		}
+
+		private void Move(Vector3 position)
 		{
 			MoveTo(position);
+		}
+
+		private void Combat(IDamageable unitToAttack)
+		{
+			Attack(unitToAttack);
 		}
 
 		public void MoveTo(Vector3 position)
@@ -94,7 +112,12 @@ namespace StrategyGameDemo
 
 		private void UpdateHealth(float health)
 		{
-			view.UpdateHealthText(health);
+			UIManager.Instance.UpdateUnitHealth(health, model);
+		}
+
+		public float GetClosestDistance(Vector3 position)
+		{
+			return Vector3.Distance(transform.position, position);
 		}
 	}
 }

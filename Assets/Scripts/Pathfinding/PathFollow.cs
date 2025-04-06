@@ -1,6 +1,6 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
+using StrategyGameDemo.Managers;
 using UnityEngine;
 
 namespace StrategyGameDemo

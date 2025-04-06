@@ -1,7 +1,9 @@
+using StrategyGameDemo.Models;
+
 namespace StrategyGameDemo.Interfaces
 {
 	public interface IAttackBehaviour
 	{
-		void Attack(UnitController attacker, UnitController receiver);
+		void Attack(IDamageable attacker, IDamageable receiver, float range);
 	}
 }

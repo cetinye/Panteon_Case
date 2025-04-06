@@ -1,4 +1,5 @@
 using System;
+using StrategyGameDemo.Managers;
 using StrategyGameDemo.Models;
 using TMPro;
 using UnityEngine;
@@ -10,11 +11,6 @@ namespace StrategyGameDemo.Views
 		[Header("Unit Display")]
 		[SerializeField] private SpriteRenderer spriteRenderer;
 		
-		[Header("Information Panel")]
-		[SerializeField] private TMP_Text healthText;
-		
-		public static Action<UnitModel> OnUnitSelect;
-
 		private void Awake()
 		{
 			spriteRenderer = GetComponentInChildren<SpriteRenderer>();
@@ -29,11 +25,10 @@ namespace StrategyGameDemo.Views
 		{
 			spriteRenderer.color = color;
 		}
-
-		public void UpdateHealthText(float health)
+		
+		public void ShowUnitInfo(UnitModel model)
 		{
-			if (healthText != null)
-				healthText.text = $"HP: {health.ToString("F0")}";
+			UIManager.OnShowUnitInfo?.Invoke(model);
 		}
 	}
 }

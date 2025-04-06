@@ -6,6 +6,5 @@ namespace StrategyGameDemo.Models
 	public class SoldierModel : UnitModel
 	{
 		public override UnitTypes UnitType => UnitTypes.Soldier;
-		
 	}
 }

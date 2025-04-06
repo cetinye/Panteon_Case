@@ -10,7 +10,7 @@ using UnityEngine;
 
 namespace StrategyGameDemo
 {
-	public class BuildingController : MonoBehaviour, ISelectBehaviour
+	public class BuildingController : MonoBehaviour, ISelectBehaviour, IDamageable
 	{
 		[SerializeField] private BuildingTypes buildingType;
 		[SerializeField] private List<Transform> spawnPoints = new List<Transform>();
@@ -21,7 +21,9 @@ namespace StrategyGameDemo
 		private BoxCollider2D boxCollider;
 		private bool isInitialized;
 		private bool isPreview;
-
+		
+		public event Action OnBuildingDestroyed;
+		
 		private void OnDisable()
 		{
 			model.OnHealthChanged -= UpdateHealth;
@@ -40,7 +42,6 @@ namespace StrategyGameDemo
 			view = GetComponent<BuildingView>();
 			view.SetBuildingSprite(model.BuildingSprite);
 			view.SetBuildingSpriteSize(model.BuildingSize);
-			view.UpdateHealthText(model.Health);
 			
 			boxCollider = GetComponent<BoxCollider2D>();
 			SetColliderSize();
@@ -89,20 +90,53 @@ namespace StrategyGameDemo
 		public void TakeDamage(float damage)
 		{
 			model.TakeDamage(damage);
-		}
-		
-		private void UpdateHealth(float health)
-		{
-			view.UpdateHealthText(health);
+			
+			if (model.Health <= 0)
+			{
+				Die();
+			}
 		}
 
+		public float GetDamage()
+		{
+			return 0;
+		}
+
+		private void Die()
+		{
+			ClearOccupiedGrids();
+			OnBuildingDestroyed?.Invoke();
+			gameObject.SetActive(false);
+		}
+
+		public void AddToOccupiedNodes(Node gridNode)
+		{
+			if (!model.OccupiedNodes.Contains(gridNode))
+				model.OccupiedNodes.Add(gridNode);
+		}
+
+		private void ClearOccupiedGrids()
+		{
+			for (int i = 0; i < model.OccupiedNodes.Count; i++)
+			{
+				model.OccupiedNodes[i].IsWalkable = true;
+			}
+			
+			model.OccupiedNodes.Clear();
+		}
+
+		private void UpdateHealth(float health)
+		{
+			UIManager.Instance.UpdateBuildingHealth(health, model);
+		}
+		
 		public void LeftClick()
 		{
 			if (isInitialized &&  !isPreview)
 				view.ShowBuildingInfo(model);
 		}
 
-		public void RightClick(Vector3 position)
+		public void RightClick()
 		{
 			
 		}
@@ -130,6 +164,21 @@ namespace StrategyGameDemo
 		public void SetRendererColor(Color c)
 		{
 			view.SetSpriteColor(c);
+		}
+		
+		public float GetClosestDistance(Vector3 position)
+		{
+			float closestDistance = float.MaxValue;
+			float distance;
+			
+			foreach (var node in model.OccupiedNodes)
+			{
+				distance = Vector3.Distance(position, node.WorldPosition);
+				if (distance < closestDistance)
+					closestDistance = distance;
+			}
+
+			return closestDistance;
 		}
 	}
 }

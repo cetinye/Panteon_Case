@@ -17,6 +17,7 @@ namespace StrategyGameDemo.Managers
 		private Vector2 initialMousePos;
 
 		public static Action<Vector3> OnRightClick;
+		public static Action<IDamageable> OnRightClickUnit;
 		public static Action<Vector3> OnLeftClick;
 
 		private void Start()
@@ -39,7 +40,6 @@ namespace StrategyGameDemo.Managers
 				{
 					clickable.LeftClick();
 				}
-				
 			}
 			
 			if (Input.GetMouseButtonUp(0))
@@ -52,7 +52,15 @@ namespace StrategyGameDemo.Managers
 
 			if (Input.GetMouseButtonDown(1))
 			{
-				OnRightClick?.Invoke(mainCamera.ScreenToWorldPoint(Input.mousePosition));
+				RaycastHit2D hitInfo = Physics2D.Raycast(mainCamera.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
+				if (hitInfo && hitInfo.collider.TryGetComponent(out IDamageable damageable))
+				{
+					OnRightClickUnit?.Invoke(damageable);
+				}
+				else
+				{
+					OnRightClick?.Invoke(mainCamera.ScreenToWorldPoint(Input.mousePosition));
+				}
 			}
 
 			CameraDrag();

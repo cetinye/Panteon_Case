@@ -28,6 +28,7 @@ namespace StrategyGameDemo.Models
 			UnitSprite = data.UnitSprite;
 			Health = data.Health;
 			AttackDamage = data.AttackDamage;
+			Range = data.AttackRange;
 			MovementSpeed = data.MovementSpeed;
 			RotationSpeed = data.RotationSpeed;
 		}
@@ -38,14 +39,7 @@ namespace StrategyGameDemo.Models
 			Health = Mathf.Max(Health, 0);
 			
 			OnHealthChanged?.Invoke(Health);
-
-			if (Health <= 0)
-			{
-				Die();
-			}
 		}
-
-		protected virtual void Die() { }
 	}
 
 	public enum UnitTypes

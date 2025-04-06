@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-namespace StrategyGameDemo
+namespace StrategyGameDemo.Managers
 {
 	public class PathRequestManager : MonoBehaviour
 	{
@@ -51,7 +51,6 @@ namespace StrategyGameDemo
 
 		public void FinishedProcessing(Vector2[] path, bool success)
 		{
-			print("Path finished with " + (success ? "success" : "failed"));
 			current.Callback?.Invoke(path, success);
 			isProcessing = false;
 			TryProcessNext();

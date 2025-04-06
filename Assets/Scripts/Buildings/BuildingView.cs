@@ -11,9 +11,6 @@ namespace StrategyGameDemo.Views
 		[Header("Building Display")]
 		[SerializeField] private SpriteRenderer spriteRenderer;
 		
-		[Header("Information Panel")]
-		[SerializeField] private TMP_Text healthText;
-
 		private void Awake()
 		{
 			spriteRenderer = GetComponentInChildren<SpriteRenderer>();
@@ -42,12 +39,6 @@ namespace StrategyGameDemo.Views
 		public SpriteRenderer GetRenderer()
 		{
 			return spriteRenderer;
-		}
-
-		public void UpdateHealthText(float health)
-		{
-			if (healthText != null)
-				healthText.text = $"HP: {health.ToString("F0")}";
 		}
 	}
 }

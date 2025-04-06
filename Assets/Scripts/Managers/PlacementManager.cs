@@ -12,7 +12,7 @@ namespace StrategyGameDemo.Managers
 		[SerializeField] private GridController gridController;
 		[SerializeField] private InputManager inputManager;
 		
-		public static Action<Vector3, Vector2> OnBuildingPlace;
+		public static Action<Vector3, BuildingModel, BuildingController> OnBuildingPlace;
 		[SerializeField] private Vector3 previewOffset;
 		private Vector2 lastPosition = Vector3.zero;
 		
@@ -85,8 +85,9 @@ namespace StrategyGameDemo.Managers
 			if (!isPlaceable) return;
 			
 			var spawnedBuilding = ConcreteBuildingFactory.CreateBuildingInstance(buildingModel.BuildingType, position, transform.rotation, null, placedNode);
+			var buildingController = spawnedBuilding.GetComponent<BuildingController>();
 			
-			OnBuildingPlace?.Invoke(position, buildingModel.BuildingSize);
+			OnBuildingPlace?.Invoke(position, buildingModel, buildingController);
 		}
 
 		private void MovePreview(Vector3 position)

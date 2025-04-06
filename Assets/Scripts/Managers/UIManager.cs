@@ -58,5 +58,15 @@ namespace StrategyGameDemo.Managers
 		{
 			return informationPanel.GetActiveBuildingModel();
 		}
+
+		public void UpdateBuildingHealth(float health, BuildingModel buildingModel)
+		{
+			informationPanel.UpdateBuildingHealth(health, buildingModel);
+		}
+
+		public void UpdateUnitHealth(float health, UnitModel unitModel)
+		{
+			informationPanel.UpdateUnitHealth(health, unitModel);
+		}
 	}
 }
