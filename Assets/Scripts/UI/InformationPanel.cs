@@ -23,6 +23,7 @@ namespace StrategyGameDemo.UI
 		[SerializeField] private Image unitImage;
 		[SerializeField] private TMP_Text unitHP;
 		[SerializeField] private TMP_Text unitAD;
+		[SerializeField] private TMP_Text unitRange;
 		private UnitModel activeUnitModel;
 
 		public void ShowBuildingInformation(BuildingModel buildingModel)
@@ -78,6 +79,7 @@ namespace StrategyGameDemo.UI
 			unitImage.sprite = unitModel.UnitSprite;
 			unitHP.text = $"HP: {unitModel.Health:F0}";
 			unitAD.text = $"AD: {unitModel.AttackDamage:F0}";
+			unitRange.text = $"Range: {unitModel.Range:F0}";
 			
 			SetBuildingInformationState(false);
 			SetUnitInformationState(true);
