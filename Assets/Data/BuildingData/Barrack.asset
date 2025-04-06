@@ -18,3 +18,4 @@ MonoBehaviour:
   BuildingSize: {x: 4, y: 4}
   Health: 100
   ProducableUnits: 010000000200000003000000
+  Prefab: {fileID: 6543853807224441285, guid: 7491c01f433cfc74ca63078271e3066f, type: 3}

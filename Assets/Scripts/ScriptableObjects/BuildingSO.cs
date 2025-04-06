@@ -17,5 +17,8 @@ namespace StrategyGameDemo.Data
         public Vector2 BuildingSize;
         public float Health = 100f;
         public List<UnitTypes> ProducableUnits;
+        
+        [Header("Prefab")]
+        public GameObject Prefab;
     }
 }

@@ -94,5 +94,16 @@ namespace StrategyGameDemo.Factory
 
             return null;
         }
+        
+        public static bool GetBuildingData(BuildingTypes buildingType, out BuildingSO data)
+        {
+            Initialize();
+            if (buildingDataAssets.TryGetValue(buildingType, out data))
+            {
+                return data != null;
+            }
+            data = null;
+            return false;
+        }
     }
 }

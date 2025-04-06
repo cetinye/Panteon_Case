@@ -9,24 +9,21 @@ namespace StrategyGameDemo
 {
 	public class BuildingController : MonoBehaviour, ISelectBehaviour
 	{
+		[SerializeField] private BuildingTypes buildingType;
+		
 		private BuildingModel model;
 		private BuildingView view;
 		
 		private BoxCollider2D boxCollider;
-		
-		private void Start()
-		{
-			Initialize();
-		}
 		
 		private void OnDisable()
 		{
 			model.OnHealthChanged -= UpdateHealth;
 		}
 
-		private void Initialize()
+		public void Initialize()
 		{
-			model = BuildingFactory.GetBuilding(BuildingTypes.Barrack);
+			model = BuildingFactory.GetBuilding(buildingType);
 			
 			view = GetComponent<BuildingView>();
 			view.SetBuildingSprite(model.BuildingSprite);
@@ -56,12 +53,22 @@ namespace StrategyGameDemo
 
 		public void LeftClick()
 		{
-			BuildingView.OnBuildingSelect?.Invoke(model);
+			view.ShowBuildingInfo(model);
 		}
 
 		public void RightClick(Vector3 position)
 		{
 			
+		}
+
+		public SpriteRenderer GetRenderer()
+		{
+			return view.GetRenderer();
+		}
+
+		public void SetRendererColor(Color c)
+		{
+			view.SetSpriteColor(c);
 		}
 	}
 }

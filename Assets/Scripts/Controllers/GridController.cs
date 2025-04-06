@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using StrategyGameDemo.Managers;
 using UnityEngine;
@@ -6,6 +7,8 @@ namespace StrategyGameDemo
 {
 	public class GridController : MonoBehaviour
 	{
+		public static GridController Instance;
+		
 		[SerializeField] private Pathfinding pathfinding;
 		[SerializeField] private Vector2 gridWorldSize;
 		[SerializeField] private float nodeRadius;
@@ -23,6 +26,18 @@ namespace StrategyGameDemo
 		[SerializeField] private Material meshMaterial;
 		
 		public int MaxSize => gridSizeX * gridSizeY;
+
+		private void Awake()
+		{
+			if (Instance != null && Instance != this) 
+			{ 
+				Destroy(this); 
+			} 
+			else 
+			{ 
+				Instance = this; 
+			}
+		}
 
 		#region Gizmos
 
@@ -77,8 +92,7 @@ namespace StrategyGameDemo
 					Vector3 worldBottomLeft = transform.position - Vector3.right * gridWorldSize.x / 2 - Vector3.up * gridWorldSize.y / 2;
 					Vector3 worldPoint = worldBottomLeft + Vector3.right * (x * nodeDiameter + nodeRadius) +
 					                     Vector3.up * (y * nodeDiameter + nodeRadius);
-					bool walkable = !Physics2D.OverlapCircle(worldPoint, nodeRadius, unwalkableMask);
-					grid[x, y] = new Node(walkable, worldPoint, x, y);
+					grid[x, y] = new Node(true, worldPoint, x, y);
 				}
 			}
 
@@ -212,6 +226,13 @@ namespace StrategyGameDemo
 			}
 
 			return neighbours;
+		}
+
+		public Vector3 SnapToGridPos(Vector3 worldPosition)
+		{
+			Node n = GetNode(worldPosition);
+
+			return n.WorldPosition;
 		}
 	}
 }

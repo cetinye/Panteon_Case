@@ -10,16 +10,19 @@ namespace StrategyGameDemo.Managers
 	{
 		[SerializeField] private InformationPanel informationPanel;
 
+		public static Action<BuildingModel> OnShowBuildingInfo;
+		public static Action<UnitModel> OnShowUnitInfo;
+
 		private void OnEnable()
 		{
-			BuildingView.OnBuildingSelect += ShowBuildingInformation;
-			UnitView.OnUnitSelect += ShowUnitInformation;
+			OnShowBuildingInfo += ShowBuildingInformation;
+			OnShowUnitInfo += ShowUnitInformation;
 		}
 
 		private void OnDisable()
 		{
-			BuildingView.OnBuildingSelect -= ShowBuildingInformation;
-			UnitView.OnUnitSelect -= ShowUnitInformation;
+			OnShowBuildingInfo -= ShowBuildingInformation;
+			OnShowUnitInfo -= ShowUnitInformation;
 		}
 
 		private void ShowBuildingInformation(BuildingModel buildingModel)

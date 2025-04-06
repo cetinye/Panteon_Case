@@ -19,6 +19,7 @@ namespace StrategyGameDemo.Managers
 		private BuildingModel previewModel;
 		private GameObject previewObject;
 		private SpriteRenderer previewRenderer;
+		private BuildingController previewBuildingController;
 		private BuildingTypes selectedType = BuildingTypes.None;
 		private bool isPlaceable = false;
 		
@@ -55,12 +56,10 @@ namespace StrategyGameDemo.Managers
 			StopPreview();
 			
 			previewModel = BuildingFactory.GetBuilding(selectionType);
-			previewObject = new GameObject("Preview", typeof(SpriteRenderer));
-			previewRenderer = previewObject.GetComponent<SpriteRenderer>();
-			previewRenderer.sprite = previewModel.BuildingSprite;
-			previewObject.transform.localScale =
-				new Vector3(previewModel.BuildingSize.x - 1, previewModel.BuildingSize.y - 1, 1);
-			selectedType = previewModel.BuildingType;
+			previewObject = ConcreteBuildingFactory.CreateBuildingInstance(selectionType, transform.position, transform.rotation, transform);
+			previewBuildingController = previewObject.GetComponent<BuildingController>();
+			previewRenderer = previewBuildingController.GetRenderer();
+			selectedType = selectionType;
 
 			InputManager.OnLeftClick += OnLeftClicked;
 		}
@@ -75,7 +74,7 @@ namespace StrategyGameDemo.Managers
 
 		private void OnLeftClicked(Vector3 pos)
 		{
-			PlaceBuilding(pos, previewModel);
+			PlaceBuilding(GridController.Instance.SnapToGridPos(pos), previewModel);
 			StopPreview();
 			isPlaceable = false;
 		}
@@ -83,6 +82,8 @@ namespace StrategyGameDemo.Managers
 		public void PlaceBuilding(Vector3 position, BuildingModel buildingModel)
 		{
 			if (!isPlaceable) return;
+			
+			var spawnedBuilding = ConcreteBuildingFactory.CreateBuildingInstance(buildingModel.BuildingType, position, transform.rotation);
 			
 			OnBuildingPlace?.Invoke(position, buildingModel.BuildingSize);
 		}
@@ -96,7 +97,7 @@ namespace StrategyGameDemo.Managers
 		{
 			var feedbackColor = isPlaceable ? Color.green : Color.red;
 			feedbackColor.a = 0.5f;
-			previewRenderer.color = feedbackColor;
+			previewBuildingController.SetRendererColor(feedbackColor);
 		}
 	}
 }

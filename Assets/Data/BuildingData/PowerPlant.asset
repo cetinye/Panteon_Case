@@ -17,3 +17,5 @@ MonoBehaviour:
   BuildingName: Power Plant
   BuildingSize: {x: 2, y: 3}
   Health: 50
+  ProducableUnits: 
+  Prefab: {fileID: 3018963926358534814, guid: b012fbf938dc424468830a0461c00000, type: 3}
