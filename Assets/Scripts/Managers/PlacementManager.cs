@@ -1,4 +1,5 @@
 using System;
+using StrategyGameDemo.Controllers;
 using StrategyGameDemo.Factory;
 using StrategyGameDemo.Models;
 using UnityEngine;
@@ -55,6 +56,7 @@ namespace StrategyGameDemo.Managers
 		{
 			StopPreview();
 			
+			// Create instance for preview object
 			previewModel = BuildingFactory.GetBuilding(selectionType);
 			previewObject = ConcreteBuildingFactory.CreateBuildingInstance(selectionType, transform.position, transform.rotation, transform, null, true);
 			previewBuildingController = previewObject.GetComponent<BuildingController>();

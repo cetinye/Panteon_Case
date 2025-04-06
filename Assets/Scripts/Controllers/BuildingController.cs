@@ -8,7 +8,7 @@ using StrategyGameDemo.UI;
 using StrategyGameDemo.Views;
 using UnityEngine;
 
-namespace StrategyGameDemo
+namespace StrategyGameDemo.Controllers
 {
 	public class BuildingController : MonoBehaviour, ISelectBehaviour, IDamageable
 	{
@@ -46,10 +46,12 @@ namespace StrategyGameDemo
 			boxCollider = GetComponent<BoxCollider2D>();
 			SetColliderSize();
 			
+			// if it's a preview object, skip subscribing to events
 			if (isPreview) return;
 			
 			model.OnHealthChanged += UpdateHealth;
 			
+			// only subscribe if the object is able to produce units
 			if (model.ProducableUnits.Count > 0)
 			{
 				SetupUnitSpawnPosition();

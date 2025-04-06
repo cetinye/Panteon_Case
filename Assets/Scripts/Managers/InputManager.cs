@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using StrategyGameDemo.Controllers;
 using StrategyGameDemo.Interfaces;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -12,9 +13,9 @@ namespace StrategyGameDemo.Managers
 		
 		[Header("Camera Drag Control")]
 		private Camera mainCamera;
-		private bool isDragging = false;
-		private Vector3 initialCameraPos;
-		private Vector2 initialMousePos;
+		private CameraController cameraController;
+		private bool isLeftMouseButtonDown;
+		private Vector2 dragStartMousePos;
 
 		public static Action<Vector3> OnRightClick;
 		public static Action<IDamageable> OnRightClickUnit;
@@ -23,17 +24,20 @@ namespace StrategyGameDemo.Managers
 		private void Start()
 		{
 			mainCamera = gameManager.GetMainCamera();
+			cameraController = mainCamera.GetComponent<CameraController>();
 		}
 
 		void Update()
 		{
 			if (Input.GetMouseButtonDown(0))
 			{
+				dragStartMousePos = Input.mousePosition;
+				
 				if (IsMouseOverUI()) return;
 				
-				isDragging = true;
-				initialMousePos = Input.mousePosition;
-				initialCameraPos = mainCamera.transform.position;
+				isLeftMouseButtonDown = true;
+				
+				cameraController.StartDragging(Input.mousePosition);
 				
 				RaycastHit2D hitInfo = Physics2D.Raycast(mainCamera.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
 				if (hitInfo && hitInfo.collider.TryGetComponent(out ISelectBehaviour clickable))
@@ -42,12 +46,26 @@ namespace StrategyGameDemo.Managers
 				}
 			}
 			
+			if (isLeftMouseButtonDown && cameraController != null)
+			{
+				cameraController.UpdateDrag(Input.mousePosition);
+			}
+			
 			if (Input.GetMouseButtonUp(0))
 			{
-				isDragging = false;
+				if (!isLeftMouseButtonDown) return;
+				isLeftMouseButtonDown = false;
 				
-				if (initialMousePos.Equals(Input.mousePosition))
-					OnLeftClick?.Invoke(mainCamera.ScreenToWorldPoint(Input.mousePosition));
+				cameraController.StopDragging();
+				
+				float clickVsDragThreshold = 2f;
+				if (Vector2.Distance(dragStartMousePos, Input.mousePosition) < clickVsDragThreshold)
+				{
+					if (!IsMouseOverUI())
+					{
+						OnLeftClick?.Invoke(mainCamera.ScreenToWorldPoint(Input.mousePosition));
+					}
+				}
 			}
 
 			if (Input.GetMouseButtonDown(1))
@@ -62,29 +80,11 @@ namespace StrategyGameDemo.Managers
 					OnRightClick?.Invoke(mainCamera.ScreenToWorldPoint(Input.mousePosition));
 				}
 			}
-
-			CameraDrag();
 		}
 
 		public Vector3 GetMousePosition()
 		{
 			return mainCamera.ScreenToWorldPoint(Input.mousePosition);
-		}
-
-		private void CameraDrag()
-		{
-			if (isDragging && mainCamera != null)
-			{
-				Vector2 currentMousePos = Input.mousePosition;
-				Vector2 delta = currentMousePos - initialMousePos;
-
-				float scalingFactor = 2 * mainCamera.orthographicSize / Screen.height;
-				float worldDeltaX = delta.x * scalingFactor;
-				float worldDeltaY = delta.y * scalingFactor;
-
-				Vector3 worldDelta = new Vector3(worldDeltaX, worldDeltaY, 0);
-				mainCamera.transform.position = initialCameraPos - worldDelta;
-			}
 		}
 		
 		private bool IsMouseOverUI()

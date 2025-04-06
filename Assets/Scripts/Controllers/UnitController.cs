@@ -6,7 +6,7 @@ using StrategyGameDemo.Models;
 using StrategyGameDemo.Views;
 using UnityEngine;
 
-namespace StrategyGameDemo
+namespace StrategyGameDemo.Controllers
 {
 	public class UnitController : MonoBehaviour, ISelectBehaviour, IDamageable
 	{
@@ -105,7 +105,7 @@ namespace StrategyGameDemo
 			Attack(unitToAttack);
 		}
 
-		public void MoveTo(Vector3 position)
+		private void MoveTo(Vector3 position)
 		{
 			pathFollow.SetDestination(position);
 		}

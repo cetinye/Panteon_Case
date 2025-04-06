@@ -1,19 +1,19 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using StrategyGameDemo.Controllers;
 using StrategyGameDemo.Data;
 using StrategyGameDemo.Factory;
 using StrategyGameDemo.Models;
 using UnityEngine;
 
-namespace StrategyGameDemo
+namespace StrategyGameDemo.Managers
 {
 	public class GameManager : MonoBehaviour
 	{
 		public static GameManager Instance;
 		
 		[SerializeField] private GridController gridController;
-		
 		[SerializeField] private Camera mainCamera;
 		
 		[Header("Unit SO")]
@@ -39,22 +39,11 @@ namespace StrategyGameDemo
 			Initialize();
 		}
 
-		[ContextMenu("Start Game")]
-		public void Initialize()
+		private void Initialize()
 		{
 			BuildingFactory.Initialize();
 			UnitFactory.Initialize();
 			gridController.InitializeGrid();
-		}
-
-		public void SpawnSoldier()
-		{
-			UnitFactory.GetUnit(UnitTypes.Soldier);
-		}
-		
-		public void SpawnArcher()
-		{
-			UnitFactory.GetUnit(UnitTypes.Archer);
 		}
 
 		public Camera GetMainCamera()

@@ -5,6 +5,7 @@ using System.Linq;
 using UnityEngine;
 using StrategyGameDemo.Models;
 using StrategyGameDemo.Data;
+using StrategyGameDemo.Managers;
 
 namespace StrategyGameDemo.Factory
 {

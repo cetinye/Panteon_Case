@@ -17,7 +17,7 @@ MonoBehaviour:
   UnitName: Archer
   Health: 10
   AttackDamage: 2
-  Range: 5
+  AttackRange: 6
   MovementSpeed: 3
   RotationSpeed: 8
   Prefab: {fileID: 4575055937188753201, guid: 79d189efc427df94ea4c31bc45e6b7bb, type: 3}

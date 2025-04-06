@@ -17,7 +17,7 @@ MonoBehaviour:
   UnitName: Soldier
   Health: 10
   AttackDamage: 10
-  Range: 1
+  AttackRange: 1.5
   MovementSpeed: 3
   RotationSpeed: 8
   Prefab: {fileID: 7949321271947978941, guid: ada0afc82f053ca4781ed1d4e4ff106b, type: 3}

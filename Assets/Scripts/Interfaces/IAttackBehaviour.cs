@@ -1,5 +1,3 @@
-using StrategyGameDemo.Models;
-
 namespace StrategyGameDemo.Interfaces
 {
 	public interface IAttackBehaviour

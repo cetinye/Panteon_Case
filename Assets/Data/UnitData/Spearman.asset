@@ -17,6 +17,7 @@ MonoBehaviour:
   UnitName: Spearman
   Health: 10
   AttackDamage: 5
+  AttackRange: 3
   MovementSpeed: 3
   RotationSpeed: 8
   Prefab: {fileID: 7900816819528292545, guid: 98be9bdfcca62ca4cba71c79c6d8c617, type: 3}

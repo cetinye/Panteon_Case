@@ -4,7 +4,7 @@ using StrategyGameDemo.Managers;
 using StrategyGameDemo.Models;
 using UnityEngine;
 
-namespace StrategyGameDemo
+namespace StrategyGameDemo.Controllers
 {
 	public class GridController : MonoBehaviour
 	{
@@ -121,6 +121,8 @@ namespace StrategyGameDemo
 
 					float halfSize = nodeRadius - 0.05f;
 					int vertIndex = vertices.Count;
+					
+					// 4 vertices to define 1 square
 					vertices.Add(worldPoint + new Vector3(-halfSize, -halfSize, 0));
 					vertices.Add(worldPoint + new Vector3(halfSize, -halfSize, 0));
 					vertices.Add(worldPoint + new Vector3(halfSize, halfSize, 0));
@@ -132,7 +134,7 @@ namespace StrategyGameDemo
 					triangles.Add(vertIndex);
 					triangles.Add(vertIndex + 2);
 					triangles.Add(vertIndex + 3);
-
+					
 					Color color = grid[x, y].IsWalkable ? new Color(1, 1, 1, 0.25f) : Color.red;
 					colors.Add(color);
 					colors.Add(color);
