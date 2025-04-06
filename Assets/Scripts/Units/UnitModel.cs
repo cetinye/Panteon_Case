@@ -28,7 +28,6 @@ namespace StrategyGameDemo.Models
 			UnitSprite = data.UnitSprite;
 			Health = data.Health;
 			AttackDamage = data.AttackDamage;
-			Range = data.Range;
 			MovementSpeed = data.MovementSpeed;
 			RotationSpeed = data.RotationSpeed;
 		}
